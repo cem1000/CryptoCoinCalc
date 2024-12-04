@@ -17,85 +17,126 @@ export const CRYPTO_ICONS = [
     'images/matic.png'
 ];
 
+// The stages of crypto grief, now with more precision and pain
 export const WORTH_RANGES = [
-    { 
+    {
+        max: 10,
+        messages: [
+            "Congratulations! You can afford 0.0000001% of a Bitcoin transaction fee! 🎉",
+            "Your portfolio is worth less than a McDonald's ice cream machine (when it's broken) 🍦",
+            "Even LUNA investors are laughing at you 😅",
+            "Have you considered investing in magic beans instead? 🫘",
+            "This is definitely the bottom (narrator: it wasn't) 📉"
+        ]
+    },
+    {
+        max: 50,
+        messages: [
+            "You could buy half a pizza! (Not the Bitcoin pizza, obviously) 🍕",
+            "Your portfolio is worth exactly one crypto conference coffee ☕",
+            "Still more valuable than SafeMoon's promises 🌙",
+            "Even Dogecoin wouldn't bark at this 🐕",
+            "Achievement unlocked: Micro-micro-micro whale 🐋"
+        ]
+    },
+    {
         max: 100,
         messages: [
-            "Still eating instant ramen? Bullish! 🍜",
-            "Your portfolio is smaller than gas fees ⛽",
-            "Have you tried turning it off and on again? 🔌",
-            "Time to sell your kidney? (Not financial advice) 🫘",
-            "1 DOGE = 1 DOGE (but you can't afford one) 🐕"
+            "You can now afford to lose twice as much! 📊",
+            "Whale alert: Someone moved $100 worth of crypto (it's you) 🚨",
+            "Your portfolio is now worth one NFT pixel 🎨",
+            "Time to start a 'How I turned $100 into $0' YouTube series 🎥",
+            "This is basically a rounding error on Mt. Gox's books 📚"
+        ]
+    },
+    {
+        max: 500,
+        messages: [
+            "Almost enough for one Ethereum gas fee (during off-peak hours) ⛽",
+            "You could buy a hardware wallet! (To store your debt) 💾",
+            "Time to start your crypto tax evasion strategy (jk, IRS) 📋",
+            "Your portfolio is worth one conference ticket (standing room only) 🎫",
+            "Achievement unlocked: Plankton status 🦠"
         ]
     },
     {
         max: 1000,
         messages: [
-            "Wen Honda Civic? 🚗",
-            "Almost enough for a jpeg of a monkey! 🐒",
-            "Your portfolio is now worth one GPU fan 🌪️",
-            "Time to start a YouTube crypto channel! 🎥",
-            "HODL game weak but spirit strong 💪"
+            "You can now afford to join a DAO (that's definitely not a Discord group) 👥",
+            "Time to add 'crypto visionary' to your Twitter bio 🐦",
+            "Almost enough to buy the dip (of the dip of the dip) 📉",
+            "Your portfolio is worth one VIP dinner with Carlos Matos 🍽️",
+            "Hey hey heeeey... you're still poor 👋"
+        ]
+    },
+    {
+        max: 5000,
+        messages: [
+            "Officially qualified to give financial advice (in the metaverse) 🎮",
+            "Time to start your own technical analysis channel (just draw random lines) 📈",
+            "You could buy a used mining rig from 2017! (Still not profitable) ⛏️",
+            "Almost enough to recover from your SafeMoon investment 🌙",
+            "Achievement unlocked: Baby Shark 🦈"
         ]
     },
     {
         max: 10000,
         messages: [
-            "Wen Ramen upgrade to Sushi? 🍣",
-            "Time to quit your job! (jk keep mining fiat) 💼",
-            "Almost break-even from your 2021 buys! 📈",
-            "Starting to feel like Michael Saylor (at home) 🏠",
-            "Wen Toyota? 🚙"
+            "Time to tell your parents you're a 'blockchain entrepreneur' 👔",
+            "You could buy a course on how to lose money faster! 📚",
+            "Almost enough to start your own exchange (that's definitely not a scam) 💱",
+            "Your portfolio is worth one dinner with Peter Schiff (he'll still hate Bitcoin) 🍽️",
+            "Achievement unlocked: Dolphin (at home) 🐬"
         ]
     },
     {
         max: 50000,
         messages: [
-            "Getting ready to post 'GM' every day 🌅",
-            "Time to add 'crypto entrepreneur' to bio ✍️",
-            "Wen Tesla? vrooooom.tesla.com 🚗",
-            "Starting to understand what WAGMI means 🚀",
-            "Your wife's boyfriend might let you eat at the table now 🍽️"
+            "Time to start your own coin (ElonCumRocket69Inu) 🚀",
+            "You could buy a used Lambo! (Hot Wheels edition) 🏎️",
+            "Almost enough to recover from your ICP investment 🤡",
+            "Your portfolio is worth one Bitcoin maximalist's monthly coffee budget ☕",
+            "Achievement unlocked: Shark (in a kiddie pool) 🦈"
         ]
     },
     {
         max: 100000,
         messages: [
-            "Wen Lambo? Soon™ 🏎️",
-            "Time to tell your boss what you really think (in draft) 📝",
-            "Almost enough to recover from your leverage trades! 📊",
-            "Wen Ferrari? configurator.ferrari.com 🏎️",
-            "Starting to feel like a proper degen 🎰"
+            "Time to start your own country (in the metaverse) 🏴‍☠️",
+            "You could buy Twitter! (A Twitter bot, that is) 🤖",
+            "Almost enough to make Michael Saylor notice you 👀",
+            "Your portfolio is worth one Crypto Punk's left eyebrow 👁️",
+            "Achievement unlocked: Baby Whale (still drinks milk) 🐋"
         ]
     },
     {
         max: 500000,
         messages: [
-            "Wen private island? privateislands.com 🏝️",
-            "Time to start your own 'not a ponzi' scheme! 🔺",
-            "Your portfolio is worth more than LUNA 2.0 🌙",
-            "Officially qualified to give bad financial advice 📈",
-            "Wen mansion? zillow.com/mansion 🏰"
+            "Time to start your own blockchain (now with extra buzzwords) 🔗",
+            "You could buy a house! (in Decentraland) 🏠",
+            "Almost enough to make CZ follow you back 🤝",
+            "Your portfolio is worth one SEC fine (rookie numbers) 💸",
+            "Achievement unlocked: Whale (at SeaWorld) 🐋"
         ]
     },
     {
         max: 1000000,
         messages: [
-            "Wen space trip with Elon? 🚀",
-            "Time to start your own blockchain (with blackjack) ♠️",
-            "Officially a crypto millionaire (until tomorrow) 📉",
-            "Wen buy Twitter? (cheaper than before) 🐦",
-            "Time to start DMing celebs about your NFT project 💫"
+            "Congratulations! You're now officially 'crypto rich' (poor in fiat) 🎉",
+            "Time to start your own hedge fund (Sir, this is a Wendy's) 💼",
+            "You could buy FTX! (Too soon?) 💣",
+            "Your portfolio is worth one of Do Kwon's daily legal fees ⚖️",
+            "Achievement unlocked: Moby Dick's cousin twice removed 🐳"
         ]
     },
     {
         max: Infinity,
         messages: [
-            "Hello Mr. Nakamoto, is that you? 👀",
-            "CZ wants to know if you're hiring 💼",
-            "Time to create your own country! 🏴‍☠️",
-            "Even FTX can't lose this much! 🎰",
-            "Instructions unclear: accidentally bought Amazon 🛍️"
+            "Error 404: Bank account too large to compute 🤯",
+            "Even Satoshi is sliding into your DMs 📱",
+            "Time to buy El Salvador (the whole country) 🌎",
+            "Your portfolio is worth more than common sense 🧠",
+            "Achievement unlocked: Final Boss - Satoshi's true identity revealed 🎮"
         ]
     }
 ];
