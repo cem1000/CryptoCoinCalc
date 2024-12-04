@@ -1,6 +1,6 @@
 import { fetchTokenData } from './api.js';
 import { getDefaultTokens } from './tokens.js';
-import { addCoin } from './ui.js';
+import { addCoin, updateTotal } from './ui.js';
 import { initializeFloatingCoins } from './animations.js';
 
 let AVAILABLE_TOKENS = [];
@@ -29,6 +29,9 @@ async function initializeApp() {
             // Initialize with default tokens
             const defaultTokens = getDefaultTokens(AVAILABLE_TOKENS);
             defaultTokens.forEach(token => addCoin(token));
+            
+            // Calculate initial total
+            updateTotal();
         } else {
             throw new Error('Failed to fetch token data');
         }
@@ -55,5 +58,4 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeApp();
 });
 
-// Export for use in other modules if needed
 export { AVAILABLE_TOKENS }; 

@@ -2,41 +2,87 @@ import { createCoin, coins } from './tokens.js';
 import { WORTH_RANGES } from './config.js';
 import { AVAILABLE_TOKENS } from './main.js';
 
+function formatNumber(num) {
+    if (!num && num !== 0) return '';
+    const number = Number(num);
+    if (isNaN(number)) return '';
+    
+    // Handle different decimal places based on size
+    if (number >= 1) {
+        return number.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        });
+    } else {
+        return number.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 8
+        });
+    }
+}
+
+function parseFormattedNumber(str) {
+    if (!str) return '0';
+    // Remove commas and any other non-numeric characters except decimal point
+    const cleaned = str.toString().replace(/[^0-9.-]/g, '');
+    return cleaned || '0';
+}
+
+function createColumnHeaders() {
+    const headers = document.createElement('div');
+    headers.className = 'row mb-3 text-center';
+    headers.innerHTML = `
+        <div class="col-4">Token Name</div>
+        <div class="col-3">Amount</div>
+        <div class="col-3">Price Target ($)</div>
+        <div class="col-2">Price Mode</div>
+    `;
+    return headers;
+}
+
 export function createCoinElement(coin) {
     const div = document.createElement('div');
     div.className = 'coin-row';
     div.innerHTML = `
-        <div class="input-group">
-            <label class="input-label">Token Name</label>
+        <div class="col-4">
             <input type="text" 
+                class="name-input form-control text-center" 
                 placeholder="Type to search..." 
-                class="name-input" 
                 list="available-coins"
-                autocomplete="off">
+                autocomplete="off"
+                value="${coin.name || ''}">
+            <div class="helper-text">Search or select from available tokens</div>
         </div>
-        <div class="input-group">
-            <label class="input-label">Amount</label>
-            <input type="number" placeholder="Amount" class="holdings-input">
+        <div class="col-3">
+            <input type="text" 
+                class="holdings-input form-control text-center" 
+                placeholder="Amount"
+                value="${formatNumber(coin.holdings || '')}">
+            <div class="helper-text">Enter the amount you own</div>
         </div>
-        <div class="input-group">
-            <label class="input-label">Price Target ($)</label>
-            <input type="number" placeholder="Target $" class="price-input" 
-                ${!coin.useCustomPrice ? 'readonly' : ''} 
-                value="${coin.targetPrice}">
-            <div class="multiplier-buttons">
-                ${[2, 5, 10, 100].map(mult => 
-                    `<button class="multiplier-btn">${mult}x</button>`
-                ).join('')}
+        <div class="col-3">
+            <div class="price-target-section">
+                <input type="text" 
+                    class="price-input form-control text-center" 
+                    placeholder="Target price" 
+                    ${!coin.useCustomPrice ? 'readonly' : ''}
+                    value="${formatNumber(coin.targetPrice || '')}">
+                <div class="multiplier-buttons">
+                    ${[2, 5, 10, 100].map(mult => 
+                        `<button class="multiplier-btn">${mult}x</button>`
+                    ).join('')}
+                </div>
             </div>
         </div>
-        <div class="price-toggle-group">
-            <label class="input-label">Price Mode</label>
+        <div class="col-2">
             <div class="toggle-wrapper">
                 <span class="toggle-label">${coin.useCustomPrice ? 'Custom' : 'Current'}</span>
-                <div class="toggle-price ${coin.useCustomPrice ? 'active' : ''}" title="Toggle custom price"></div>
+                <div class="toggle-price ${coin.useCustomPrice ? 'active' : ''}" 
+                    title="Toggle between current price and custom target"></div>
+                <div class="helper-text">Toggle to set custom price</div>
             </div>
         </div>
-        <button class="delete-coin" title="Remove coin">×</button>
+        <button class="delete-coin" title="Remove token">×</button>
     `;
 
     const nameInput = div.querySelector('.name-input');
@@ -46,8 +92,8 @@ export function createCoinElement(coin) {
     const toggleLabel = div.querySelector('.toggle-label');
 
     nameInput.value = coin.name;
-    holdingsInput.value = coin.holdings;
-    priceInput.value = coin.targetPrice;
+    holdingsInput.value = formatNumber(coin.holdings);
+    priceInput.value = formatNumber(coin.targetPrice);
 
     // Toggle price input
     togglePrice.addEventListener('click', () => {
@@ -56,7 +102,7 @@ export function createCoinElement(coin) {
         priceInput.readOnly = !coin.useCustomPrice;
         toggleLabel.textContent = coin.useCustomPrice ? 'Custom' : 'Current';
         if (!coin.useCustomPrice) {
-            priceInput.value = coin.currentPrice;
+            priceInput.value = formatNumber(coin.currentPrice);
             coin.targetPrice = coin.currentPrice;
         }
         updateTotal();
@@ -66,16 +112,26 @@ export function createCoinElement(coin) {
     const inputs = [nameInput, holdingsInput, priceInput];
     inputs.forEach(input => {
         input.addEventListener('input', () => {
-            const selectedToken = AVAILABLE_TOKENS.find(t => t.name === nameInput.value);
-            if (selectedToken) {
-                coin.name = selectedToken.name;
-                coin.currentPrice = selectedToken.currentPrice;
-                if (!coin.useCustomPrice) {
-                    coin.targetPrice = selectedToken.currentPrice;
-                    priceInput.value = selectedToken.currentPrice;
+            if (input === nameInput) {
+                const selectedToken = AVAILABLE_TOKENS.find(t => t.name === nameInput.value);
+                if (selectedToken) {
+                    coin.name = selectedToken.name;
+                    coin.currentPrice = Number(selectedToken.currentPrice);
+                    if (!coin.useCustomPrice) {
+                        coin.targetPrice = Number(selectedToken.currentPrice);
+                        priceInput.value = formatNumber(coin.targetPrice);
+                    }
                 }
-                updateTotal();
+            } else if (input === holdingsInput) {
+                const rawValue = parseFormattedNumber(holdingsInput.value);
+                coin.holdings = Number(rawValue);
+                console.log('Updated holdings:', coin.holdings); // Debug
+            } else if (input === priceInput && coin.useCustomPrice) {
+                const rawValue = parseFormattedNumber(priceInput.value);
+                coin.targetPrice = Number(rawValue);
+                console.log('Updated target price:', coin.targetPrice); // Debug
             }
+            updateTotal();
         });
     });
 
@@ -88,9 +144,10 @@ export function createCoinElement(coin) {
                 priceInput.readOnly = false;
                 toggleLabel.textContent = 'Custom';
             }
-            const mult = parseInt(btn.textContent);
-            priceInput.value = coin.currentPrice * mult;
-            coin.targetPrice = priceInput.value;
+            const mult = Number(btn.textContent.replace('x', ''));
+            coin.targetPrice = Number(coin.currentPrice) * mult;
+            priceInput.value = formatNumber(coin.targetPrice);
+            console.log('Updated price after multiplier:', coin.targetPrice); // Debug
             updateTotal();
         });
     });
@@ -110,13 +167,39 @@ export function createCoinElement(coin) {
 }
 
 export function updateTotal() {
+    console.log('Calculating total...'); // Debug
+    console.log('Current coins:', coins); // Debug - see all coins
+
     const total = coins.reduce((sum, coin) => {
-        return sum + (parseFloat(coin.holdings || 0) * parseFloat(coin.targetPrice || 0));
+        // Log raw values before parsing
+        console.log('Raw values:', {
+            name: coin.name,
+            holdings: coin.holdings,
+            targetPrice: coin.targetPrice,
+            type: {
+                holdings: typeof coin.holdings,
+                targetPrice: typeof coin.targetPrice
+            }
+        });
+
+        const holdings = Number(coin.holdings) || 0;
+        const targetPrice = Number(coin.targetPrice) || 0;
+        const subtotal = holdings * targetPrice;
+
+        console.log('Calculated values:', {
+            holdings,
+            targetPrice,
+            subtotal
+        });
+
+        return sum + subtotal;
     }, 0);
-    
+
+    console.log('Final total:', total); // Debug
+
     const totalElement = document.getElementById('total');
     totalElement.innerHTML = `
-        <div class="total-amount">$${total.toLocaleString()}</div>
+        <div class="total-amount">$${formatNumber(total)}</div>
         <div class="worth-message">${getWorthMessage(total)}</div>
     `;
 }

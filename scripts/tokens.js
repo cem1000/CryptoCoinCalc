@@ -3,14 +3,16 @@ let coinId = 0;
 
 export function createCoin(defaultToken = null) {
     coinId++;
-    return {
+    const coin = {
         id: coinId,
         name: defaultToken ? defaultToken.name : '',
-        holdings: defaultToken ? defaultToken.defaultHoldings : '',
-        targetPrice: defaultToken ? defaultToken.currentPrice : '',
-        currentPrice: defaultToken ? defaultToken.currentPrice : '',
+        holdings: defaultToken ? Number(defaultToken.defaultHoldings) : 0,
+        targetPrice: defaultToken ? Number(defaultToken.currentPrice) : 0,
+        currentPrice: defaultToken ? Number(defaultToken.currentPrice) : 0,
         useCustomPrice: false
     };
+    console.log('Created new coin:', coin); // Debug
+    return coin;
 }
 
 export function getDefaultTokens(availableTokens) {
