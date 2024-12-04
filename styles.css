@@ -35,6 +35,8 @@ h1 {
   gap: 16px;
   margin-bottom: 24px;
   align-items: start;
+  position: relative;
+  padding-right: 40px;
 }
 
 .coin-inputs {
@@ -88,14 +90,18 @@ input {
 .toggle-price {
   width: 40px;
   height: 20px;
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(126, 87, 194, 0.3);
   border-radius: 10px;
   position: relative;
   cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
 }
 
 .toggle-price.active {
   background: #7e57c2;
+  border-color: #7e57c2;
 }
 
 .toggle-price::after {
@@ -105,13 +111,18 @@ input {
   height: 16px;
   background: white;
   border-radius: 50%;
-  top: 2px;
-  left: 2px;
+  top: 1px;
+  left: 1px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s;
 }
 
 .toggle-price.active::after {
   transform: translateX(20px);
+}
+
+.toggle-price:hover {
+  border-color: rgba(126, 87, 194, 0.5);
 }
 
 #add-coin {
@@ -127,13 +138,29 @@ input {
 
 #total {
   text-align: center;
+  margin-top: 24px;
+}
+
+.total-amount {
   font-size: 24px;
   font-weight: bold;
-  margin-top: 24px;
   background: linear-gradient(to right, #ec407a, #7e57c2);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.worth-message {
+  font-size: 16px;
+  color: #666;
+  margin-top: 8px;
+  font-style: italic;
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Floating coins animation */
@@ -202,5 +229,99 @@ input {
   padding: 20px;
   color: #666;
   font-style: italic;
+}
+
+input[list] {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    width: 100%;
+}
+
+input[list]::-webkit-calendar-picker-indicator {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+input[list][readonly] {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.delete-coin {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.5);
+    color: #666;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.delete-coin:hover {
+    background: #ff4081;
+    color: white;
+}
+
+.toggle-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Update input styles */
+input[type="text"],
+input[type="number"] {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+    transition: background 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus {
+    background: rgba(255, 255, 255, 0.8);
+    outline: none;
+}
+
+/* Remove readonly styles since all inputs are now editable */
+input[readonly] {
+    opacity: 1;
+    cursor: text;
+}
+
+.token-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.token-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Adjust input width to accommodate icon */
+.token-input-wrapper input {
+    flex: 1;
 }
   

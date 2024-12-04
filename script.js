@@ -22,6 +22,17 @@ async function initializeApp() {
             currentPrice: row.c[3].v // coin_price
         }));
 
+        // Create datalist for coin names
+        const datalist = document.createElement('datalist');
+        datalist.id = 'available-coins';
+        const uniqueCoins = [...new Set(AVAILABLE_TOKENS.map(t => t.name))];
+        uniqueCoins.forEach(coinName => {
+            const option = document.createElement('option');
+            option.value = coinName;
+            datalist.appendChild(option);
+        });
+        document.body.appendChild(datalist);
+
         // Set default tokens (BTC, ETH, DOGE)
         DEFAULT_TOKENS = [
             { 
@@ -76,7 +87,11 @@ function createCoinElement(coin) {
     div.innerHTML = `
         <div class="input-group">
             <label class="input-label">Token Name</label>
-            <input type="text" placeholder="Token Name" class="name-input" ${coin.currentPrice ? 'readonly' : ''}>
+            <input type="text" 
+                placeholder="Type to search..." 
+                class="name-input" 
+                list="available-coins"
+                autocomplete="off">
         </div>
         <div class="input-group">
             <label class="input-label">Amount</label>
@@ -94,9 +109,13 @@ function createCoinElement(coin) {
             </div>
         </div>
         <div class="price-toggle-group">
-            <span class="toggle-label">${coin.useCustomPrice ? 'Custom' : 'Current'}</span>
-            <div class="toggle-price ${coin.useCustomPrice ? 'active' : ''}" title="Toggle custom price"></div>
+            <label class="input-label">Price Mode</label>
+            <div class="toggle-wrapper">
+                <span class="toggle-label">${coin.useCustomPrice ? 'Custom' : 'Current'}</span>
+                <div class="toggle-price ${coin.useCustomPrice ? 'active' : ''}" title="Toggle custom price"></div>
+            </div>
         </div>
+        <button class="delete-coin" title="Remove coin">×</button>
     `;
 
     const nameInput = div.querySelector('.name-input');
@@ -151,14 +170,68 @@ function createCoinElement(coin) {
         });
     });
 
+    // Add input handler for coin selection
+    nameInput.addEventListener('input', () => {
+        if (!coin.currentPrice) { // Only for new coins, not default ones
+            const selectedToken = AVAILABLE_TOKENS.find(t => t.name === nameInput.value);
+            if (selectedToken) {
+                coin.currentPrice = selectedToken.currentPrice;
+                if (!coin.useCustomPrice) {
+                    coin.targetPrice = selectedToken.currentPrice;
+                    priceInput.value = selectedToken.currentPrice;
+                }
+                updateTotal();
+            }
+        }
+    });
+
+    // Add delete functionality
+    const deleteBtn = div.querySelector('.delete-coin');
+    deleteBtn.addEventListener('click', () => {
+        div.remove();
+        const index = coins.findIndex(c => c.id === coin.id);
+        if (index > -1) {
+            coins.splice(index, 1);
+        }
+        updateTotal();
+    });
+
     return div;
 }
 
+function getWorthMessage(total) {
+    const ranges = [
+        { max: 100, message: "Maybe stick to mining faucets for now... 🚰" },
+        { max: 1000, message: "You can buy some decent NFTs... if it was 2021! 🖼️" },
+        { max: 10000, message: "Nice! You can afford a decent mining rig! ⛏️" },
+        { max: 50000, message: "You could start your own NFT collection! 🎨" },
+        { max: 100000, message: "Time to quit your job and become a full-time trader! 📈" },
+        { max: 500000, message: "You can now afford your own crypto startup! 🚀" },
+        { max: 1000000, message: "Welcome to the 7-figure crypto club! Lambo time! 🏎️" },
+        { max: 5000000, message: "You can now buy an entire Bitcoin mining farm! ⚡" },
+        { max: 10000000, message: "Time to buy that private island for your crypto hub 🏝️" },
+        { max: 50000000, message: "You could start your own cryptocurrency! 💎" },
+        { max: 100000000, message: "Congratulations! You're now a crypto whale! 🐋" },
+        { max: 500000000, message: "You could buy multiple crypto exchanges! 🏦" },
+        { max: 1000000000, message: "Billionaire's club! Time to compete with CZ! 👑" },
+        { max: Infinity, message: "Hello Satoshi, is that you? 😎" }
+    ];
+
+    const range = ranges.find(r => total <= r.max);
+    return range ? range.message : "WAGMI! 🚀";
+}
+
+// Update the updateTotal function
 function updateTotal() {
     const total = coins.reduce((sum, coin) => {
         return sum + (parseFloat(coin.holdings || 0) * parseFloat(coin.targetPrice || 0));
     }, 0);
-    document.getElementById('total').textContent = `$${total.toLocaleString()}`;
+    
+    const totalElement = document.getElementById('total');
+    totalElement.innerHTML = `
+        <div class="total-amount">$${total.toLocaleString()}</div>
+        <div class="worth-message">${getWorthMessage(total)}</div>
+    `;
 }
 
 function addCoin(defaultToken = null) {
