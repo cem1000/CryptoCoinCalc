@@ -7,8 +7,8 @@ body {
 
 .container {
   max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
+  margin: 20px auto;
+  padding: 15px;
 }
 
 .card {
@@ -16,6 +16,7 @@ body {
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  padding: 15px;
 }
 
 h1 {
@@ -29,10 +30,11 @@ h1 {
 }
 
 .coin-row {
-  display: flex;
-  align-items: flex-start;
-  padding: 16px 40px 16px 12px;
-  margin-bottom: 16px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
+  gap: 16px;
+  align-items: center;
+  padding: 16px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   position: relative;
@@ -400,62 +402,146 @@ input[readonly] {
 /* Tablet and smaller screens */
 @media (max-width: 768px) {
     .container {
-        margin: 20px auto;
         padding: 10px;
+        margin: 10px;
     }
 
-    .logo h1 {
-        font-size: 2.5rem;
-    }
-
-    .subtitle {
-        font-size: 1rem;
-    }
-
-    .coin-row {
-        margin-bottom: 1rem;
-    }
-    
-    .col-4, .col-3, .col-2 {
-        margin-bottom: 0.5rem;
-    }
-}
-
-/* Mobile devices */
-@media (max-width: 576px) {
-    .coin-row {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        padding: 16px;
-        margin-bottom: 16px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-    }
-
-    .delete-coin {
-        right: 8px;
-        top: 8px;
-    }
-
-    .price-toggle-group {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding-top: 8px;
-        border-top: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .multiplier-buttons {
-        justify-content: center;
+    .card {
+        padding: 10px;
     }
 
     .logo h1 {
         font-size: 2rem;
     }
 
-    .worth-message {
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    /* Stack columns on mobile */
+    .coin-row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 15px 40px 15px 15px;
+    }
+
+    .d-md-none {
+        display: block;
+    }
+
+    .coin-row > div {
+        width: 100%;
+    }
+
+    .delete-coin {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+
+    .multiplier-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+    }
+
+    /* Adjust headers for mobile */
+    .row.mb-3.text-center {
+        display: none; /* Hide headers on mobile */
+    }
+
+    /* Show labels on mobile */
+    .input-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 12px;
+        color: #666;
+        text-transform: uppercase;
+    }
+
+    /* Adjust multiplier buttons */
+    .multiplier-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        margin-top: 5px;
+    }
+
+    .multiplier-btn {
+        padding: 4px;
+        font-size: 10px;
+    }
+
+    /* Adjust price mode toggle */
+    .price-toggle-group {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 5px 0;
+    }
+
+    /* Make delete button more accessible on mobile */
+    .delete-coin {
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Adjust input sizes */
+    .form-control {
+        height: 36px;
         font-size: 14px;
     }
+
+    /* Better spacing for helper text */
+    .helper-text {
+        margin-top: 2px;
+        font-size: 10px;
+    }
+
+    /* Improve total display */
+    #total {
+        margin-top: 20px;
+    }
+
+    .total-amount {
+        font-size: 20px;
+    }
+
+    .worth-message {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+
+    /* Make add token button more prominent */
+    #add-coin {
+        margin-top: 15px;
+        padding: 10px;
+        font-size: 16px;
+    }
+}
+
+/* Small phones */
+@media (max-width: 375px) {
+    .logo h1 {
+        font-size: 1.75rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        font-size: 13px;
+    }
+}
+
+/* Add smooth transitions */
+.coin-row, .form-control, .multiplier-btn, .delete-coin {
+    transition: all 0.3s ease;
 }
 
 /* Update header styles */
