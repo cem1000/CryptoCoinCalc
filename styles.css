@@ -33,8 +33,9 @@ h1 {
   display: grid;
   grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
   gap: 16px;
-  align-items: center;
+  align-items: start;
   padding: 16px;
+  margin-bottom: 16px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;
   position: relative;
@@ -402,140 +403,189 @@ input[readonly] {
 /* Tablet and smaller screens */
 @media (max-width: 768px) {
     .container {
+        margin: 0;
         padding: 10px;
-        margin: 10px;
-    }
-
-    .card {
-        padding: 10px;
-    }
-
-    .logo h1 {
-        font-size: 2rem;
-    }
-
-    .subtitle {
-        font-size: 1rem;
-    }
-
-    /* Stack columns on mobile */
-    .coin-row {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        padding: 15px 40px 15px 15px;
-    }
-
-    .d-md-none {
-        display: block;
-    }
-
-    .coin-row > div {
         width: 100%;
     }
 
-    .delete-coin {
-        position: absolute;
-        right: 5px;
-        top: 5px;
+    .card {
+        padding: 15px 10px;
+        margin: 0;
+        border-radius: 0;
     }
 
-    .multiplier-buttons {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 5px;
+    /* Stack layout for mobile */
+    .coin-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        margin-bottom: 15px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        position: relative;
+        width: 100%;
     }
 
-    /* Adjust headers for mobile */
-    .row.mb-3.text-center {
-        display: none; /* Hide headers on mobile */
+    /* Center all inputs and content */
+    .coin-row > div {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        text-align: center;
     }
 
-    /* Show labels on mobile */
-    .input-group label {
+    /* Mobile headers */
+    .d-md-none {
         display: block;
-        margin-bottom: 5px;
-        font-size: 12px;
+        font-size: 11px;
         color: #666;
+        margin-bottom: 4px;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+        white-space: nowrap; /* Prevent word breaks */
     }
 
-    /* Adjust multiplier buttons */
+    /* Input styling */
+    .form-control {
+        height: 40px;
+        font-size: 15px;
+        padding: 8px;
+        text-align: center;
+        width: 100%;
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(126, 87, 194, 0.2);
+        border-radius: 8px;
+    }
+
+    /* Multiplier buttons */
     .multiplier-buttons {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 5px;
-        margin-top: 5px;
+        gap: 6px;
+        margin: 8px auto;
+        width: 100%;
+        max-width: 280px;
     }
 
     .multiplier-btn {
-        padding: 4px;
-        font-size: 10px;
+        padding: 6px 0;
+        font-size: 12px;
+        border-radius: 6px;
     }
 
-    /* Adjust price mode toggle */
-    .price-toggle-group {
-        flex-direction: row;
-        justify-content: space-between;
+    /* Price mode toggle */
+    .toggle-wrapper {
+        display: flex;
         align-items: center;
-        padding: 5px 0;
+        justify-content: center;
+        gap: 8px;
+        margin: 8px 0;
     }
 
-    /* Make delete button more accessible on mobile */
+    .toggle-label {
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    /* Delete button */
     .delete-coin {
         position: absolute;
-        right: 5px;
-        top: 5px;
-        width: 30px;
-        height: 30px;
+        right: 8px;
+        top: 8px;
+        width: 24px;
+        height: 24px;
+        font-size: 16px;
     }
 
-    /* Adjust input sizes */
-    .form-control {
-        height: 36px;
+    /* Hide desktop headers */
+    .row.mb-3.text-center {
+        display: none;
+    }
+
+    /* Add token button */
+    #add-coin {
+        width: 280px;
+        margin: 15px auto;
+        padding: 10px;
         font-size: 14px;
+        display: block;
     }
 
-    /* Better spacing for helper text */
-    .helper-text {
-        margin-top: 2px;
-        font-size: 10px;
-    }
-
-    /* Improve total display */
+    /* Total section */
     #total {
+        text-align: center;
         margin-top: 20px;
     }
 
     .total-amount {
-        font-size: 20px;
+        font-size: 24px;
+        margin-bottom: 6px;
     }
 
     .worth-message {
-        font-size: 14px;
-        padding: 0 10px;
+        font-size: 13px;
+        padding: 0 20px;
+        line-height: 1.4;
     }
 
-    /* Make add token button more prominent */
-    #add-coin {
-        margin-top: 15px;
-        padding: 10px;
-        font-size: 16px;
+    /* Break "Price Target" and "Price Mode" into two lines */
+    [data-label="Price Target ($)"],
+    [data-label="Price Mode"] {
+        line-height: 1.2;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Price mode section */
+    .input-section:last-child {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        padding: 8px 0;
+    }
+
+    /* Price mode label and toggle on same row */
+    .input-section:last-child .d-md-none {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Toggle wrapper in mobile */
+    .toggle-wrapper {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        margin: 0;
+    }
+
+    /* Adjust toggle label */
+    .toggle-label {
+        font-size: 12px;
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    /* Make toggle switch more compact */
+    .toggle-price {
+        margin: 0;
     }
 }
 
-/* Small phones */
-@media (max-width: 375px) {
-    .logo h1 {
-        font-size: 1.75rem;
-    }
-
-    .subtitle {
-        font-size: 0.9rem;
+/* Extra small phones */
+@media (max-width: 360px) {
+    .coin-row > div,
+    .multiplier-buttons,
+    #add-coin {
+        max-width: 240px;
     }
 
     .form-control {
-        font-size: 13px;
+        font-size: 14px;
+        height: 36px;
     }
 }
 
@@ -705,5 +755,91 @@ input::placeholder {
     display: flex;
     flex-direction: column;
     gap: 4px;
+}
+
+/* Desktop layout */
+.coin-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 0.5fr;
+    gap: 16px;
+    align-items: start;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    position: relative;
+}
+
+/* Desktop input containers */
+.input-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Input styling */
+.form-control {
+    width: 100%;
+    height: 40px;
+    margin: 0;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(126, 87, 194, 0.2);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 14px;
+}
+
+/* Hide mobile labels on desktop */
+.d-md-none {
+    display: none;
+}
+
+/* Multiplier buttons */
+.multiplier-buttons {
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
+/* Toggle wrapper */
+.toggle-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+/* Delete button */
+.delete-coin {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    /* ... existing mobile styles ... */
+    .coin-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .input-section {
+        width: 100%;
+        max-width: 280px;
+    }
+
+    .d-md-none {
+        display: block;
+    }
 }
   

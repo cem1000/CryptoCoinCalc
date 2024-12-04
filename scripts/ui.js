@@ -1,5 +1,5 @@
 import { createCoin, coins } from './tokens.js';
-import { WORTH_RANGES } from './config.js';
+import { WORTH_RANGES, getRandomMessage } from './config.js';
 import { AVAILABLE_TOKENS } from './main.js';
 
 function formatNumber(num) {
@@ -44,26 +44,26 @@ export function createCoinElement(coin) {
     const div = document.createElement('div');
     div.className = 'coin-row';
     div.innerHTML = `
-        <div class="col-4">
+        <div class="input-section">
             <label class="d-md-none">Token Name</label>
             <input type="text" 
-                class="name-input form-control text-center" 
+                class="name-input form-control" 
                 placeholder="Search token..." 
                 list="available-coins"
                 autocomplete="off"
                 value="${coin.name || ''}">
         </div>
-        <div class="col-3">
+        <div class="input-section">
             <label class="d-md-none">Amount</label>
             <input type="text" 
-                class="holdings-input form-control text-center" 
+                class="holdings-input form-control" 
                 placeholder="Enter amount" 
                 value="${formatNumber(coin.holdings || '')}">
         </div>
-        <div class="col-3">
-            <label class="d-md-none">Price Target ($)</label>
+        <div class="input-section">
+            <label class="d-md-none">Price<br>Target ($)</label>
             <input type="text" 
-                class="price-input form-control text-center" 
+                class="price-input form-control" 
                 placeholder="Target price" 
                 ${!coin.useCustomPrice ? 'readonly' : ''}
                 value="${formatNumber(coin.targetPrice || '')}">
@@ -73,12 +73,12 @@ export function createCoinElement(coin) {
                 ).join('')}
             </div>
         </div>
-        <div class="col-2">
-            <label class="d-md-none">Price Mode</label>
+        <div class="input-section">
+            <label class="d-md-none">Price<br>Mode</label>
             <div class="toggle-wrapper">
                 <span class="toggle-label">${coin.useCustomPrice ? 'Custom' : 'Current'}</span>
                 <div class="toggle-price ${coin.useCustomPrice ? 'active' : ''}" 
-                    title="Toggle between current price and custom target"></div>
+                    title="Toggle custom price"></div>
             </div>
         </div>
         <button class="delete-coin" title="Remove token">×</button>
@@ -205,7 +205,7 @@ export function updateTotal() {
 
 export function getWorthMessage(total) {
     const range = WORTH_RANGES.find(r => total <= r.max);
-    return range ? range.message : "WAGMI! 🚀";
+    return range ? getRandomMessage(range) : "Even Elon is jealous! 🚀";
 }
 
 export function addCoin(defaultToken = null) {
