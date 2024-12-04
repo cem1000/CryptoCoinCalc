@@ -324,4 +324,22 @@ input[readonly] {
 .token-input-wrapper input {
     flex: 1;
 }
+
+.error-message {
+    text-align: center;
+    padding: 20px;
+    color: #ff4081;
+    font-style: italic;
+}
+
+.error-message button {
+    display: block;
+    margin: 10px auto;
+    padding: 8px 16px;
+    background: linear-gradient(to right, #ec407a, #7e57c2);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
   
