@@ -45,41 +45,40 @@ export function createCoinElement(coin) {
     div.className = 'coin-row';
     div.innerHTML = `
         <div class="col-4">
+            <label class="d-md-none">Token Name</label>
             <input type="text" 
                 class="name-input form-control text-center" 
-                placeholder="Type to search..." 
+                placeholder="Search token..." 
                 list="available-coins"
                 autocomplete="off"
                 value="${coin.name || ''}">
-            <div class="helper-text">Search or select from available tokens</div>
         </div>
         <div class="col-3">
+            <label class="d-md-none">Amount</label>
             <input type="text" 
                 class="holdings-input form-control text-center" 
-                placeholder="Amount"
+                placeholder="Enter amount" 
                 value="${formatNumber(coin.holdings || '')}">
-            <div class="helper-text">Enter the amount you own</div>
         </div>
         <div class="col-3">
-            <div class="price-target-section">
-                <input type="text" 
-                    class="price-input form-control text-center" 
-                    placeholder="Target price" 
-                    ${!coin.useCustomPrice ? 'readonly' : ''}
-                    value="${formatNumber(coin.targetPrice || '')}">
-                <div class="multiplier-buttons">
-                    ${[2, 5, 10, 100].map(mult => 
-                        `<button class="multiplier-btn">${mult}x</button>`
-                    ).join('')}
-                </div>
+            <label class="d-md-none">Price Target ($)</label>
+            <input type="text" 
+                class="price-input form-control text-center" 
+                placeholder="Target price" 
+                ${!coin.useCustomPrice ? 'readonly' : ''}
+                value="${formatNumber(coin.targetPrice || '')}">
+            <div class="multiplier-buttons">
+                ${[2, 5, 10, 100].map(mult => 
+                    `<button class="multiplier-btn">${mult}x</button>`
+                ).join('')}
             </div>
         </div>
         <div class="col-2">
+            <label class="d-md-none">Price Mode</label>
             <div class="toggle-wrapper">
                 <span class="toggle-label">${coin.useCustomPrice ? 'Custom' : 'Current'}</span>
                 <div class="toggle-price ${coin.useCustomPrice ? 'active' : ''}" 
                     title="Toggle between current price and custom target"></div>
-                <div class="helper-text">Toggle to set custom price</div>
             </div>
         </div>
         <button class="delete-coin" title="Remove token">×</button>
